@@ -1,59 +1,131 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Spring OAuth Application</title>
-    <meta name="description" content=""/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <base href="/"/>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="/" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/webjars/bootstrap/css/bootstrap.min.css"
+    />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-</head>
-<body>
-<h1>Login Page</h1>
-<div class="container unauthenticated">
-    Via GitHub: <a href="/oauth2/authorization/github">Click Here</a>
-</div>
-<div class="container unauthenticated">
-    Via Google: <a href="/oauth2/authorization/google">Click Here</a>
-</div>
-<div class="container authenticated" style="display: none">
-    Logged in as : <span id="user"></span>
-    <div>
-        <button onclick="logout()" class="btn btn-primary">LogOut</button>
+    <script
+      type="text/javascript"
+      src="/webjars/bootstrap/js/bootstrap.min.js"
+    ></script>
+  </head>
+
+  <body>
+    <div class="login">
+      <h1>Login Page</h1>
+      <div class="error"></div>
+      <div class="unauthenticated">
+        <a href="/oauth2/authorization/github" class="btn btn-dark btn-block"
+          >Login with GitHub</a
+        >
+      </div>
+      <div class="unauthenticated">
+        <a href="/oauth2/authorization/google" class="btn btn-danger btn-block"
+          >Login with Google</a
+        >
+      </div>
+      <div class="authenticated" style="display: none">
+        <p>Logged in as: <span id="user"></span></p>
+        <button onclick="logout()" class="btn btn-primary">Logout</button>
+      </div>
     </div>
-</div>
-<script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
+    <script
+      type="text/javascript"
+      src="/webjars/js-cookie/js.cookie.js"
+    ></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
         $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (settings.type === 'POST' || settings.type === 'PUT' || settings.type === 'DELETE') {
-                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                        xhr.setRequestHeader("X-XSRF-TOKEN", Cookies.get('XSRF-TOKEN'));
-                    }
-                }
+          beforeSend: function (xhr, settings) {
+            if (
+              settings.type === "POST" ||
+              settings.type === "PUT" ||
+              settings.type === "DELETE"
+            ) {
+              if (
+                !(
+                  /^http:.*/.test(settings.url) ||
+                  /^https:.*/.test(settings.url)
+                )
+              ) {
+                xhr.setRequestHeader("X-XSRF-TOKEN", Cookies.get("XSRF-TOKEN"));
+              }
             }
+          },
         });
 
-        $.get("/user", function(data) {
-            if (data && data.name) {
-                $("#user").html(data.name);
-                $(".unauthenticated").hide();
-                $(".authenticated").show();
-            }
+        $.get("/user", function (data) {
+          if (data && data.name) {
+            $("#user").html(data.name);
+            $(".unauthenticated").hide();
+            $(".authenticated").show();
+          }
+        });
+        $.get("/user", function (data) {
+          if (data && data.name) {
+            $("#user").html(data.name);
+            $(".unauthenticated").hide();
+            $(".authenticated").show();
+          }
         });
 
-        window.logout = function() {
-            $.post("/logout", function() {
-                $("#user").html('');
-                $(".unauthenticated").show();
-                $(".authenticated").hide();
-            });
+        window.logout = function () {
+          $.post("/logout", function () {
+            $("#user").html("");
+            $(".unauthenticated").show();
+            $(".authenticated").hide();
+          });
         };
-    });
-</script>
-</body>
+      });
+    </script>
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 20px;
+        color: #0f0301;
+      }
+
+      .login {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+      }
+      .login-card .btn {
+        width: 100%;
+        margin-top: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .login .unauthenticated {
+        margin-top: 20px;
+      }
+
+      .login #user {
+        font-weight: bold;
+      }
+    </style>
+  </body>
 </html>
