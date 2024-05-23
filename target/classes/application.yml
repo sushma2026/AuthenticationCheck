@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: springOAuth2
+
+  profiles:
+    active: dev
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23liyIuhPfgn45pncK
+            client-secret: 9ca5a130e9ebc9dec8fca69a389b5b2d16d58ef3
+          google:
+            client-id: 969918256465-cpns3enf7lmuaeiqin6jb4s22029ia3q.apps.googleusercontent.com
+            client-secret: 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
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: postgres
+    password: root
+
+logging:
+  level:
+    org.springframework.boot.autoconfigure.test: DEBUG
+    org.springframework.security: INFO
+
+
+
